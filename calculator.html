@@ -302,6 +302,16 @@
 </head>
 <body>
     <div class="container">
+        <div class="history">
+            <div class="history-header">
+                <h2 class="history-title">Журнал операций</h2>
+                <button class="history-clear" onclick="clearHistory()">Очистить</button>
+            </div>
+            <div class="history-list" id="historyList">
+                <div class="history-empty">Журнал операций пуст</div>
+            </div>
+        </div>
+
         <div class="calculator">
             <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" aria-label="Переключить тему">🌙</button>
             <div class="display" id="display">0</div>
@@ -328,16 +338,6 @@
                 
                 <button class="zero" onclick="appendNumber('0')">0</button>
                 <button onclick="appendDecimal()">.</button>
-            </div>
-        </div>
-
-        <div class="history">
-            <div class="history-header">
-                <h2 class="history-title">Журнал операций</h2>
-                <button class="history-clear" onclick="clearHistory()">Очистить</button>
-            </div>
-            <div class="history-list" id="historyList">
-                <div class="history-empty">Журнал операций пуст</div>
             </div>
         </div>
     </div>
