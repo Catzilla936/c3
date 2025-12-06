@@ -16,6 +16,10 @@
             --button-hover: #e0e0e0;
             --button-text: #333;
             --button-shadow: rgba(0, 0, 0, 0.2);
+            --history-bg: #f8f9fa;
+            --history-border: #e0e0e0;
+            --history-text: #333;
+            --history-item-hover: #e8e8e8;
         }
 
         [data-theme="dark"] {
@@ -29,6 +33,10 @@
             --button-hover: #16213e;
             --button-text: #ffffff;
             --button-shadow: rgba(0, 0, 0, 0.4);
+            --history-bg: #1a1a2e;
+            --history-border: #16213e;
+            --history-text: #ffffff;
+            --history-item-hover: #16213e;
         }
 
         * {
@@ -46,6 +54,16 @@
             background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
             padding: 20px;
             transition: background 0.3s ease;
+            gap: 20px;
+        }
+
+        .container {
+            display: flex;
+            gap: 20px;
+            max-width: 900px;
+            width: 100%;
+            justify-content: center;
+            flex-wrap: wrap;
         }
 
         .calculator {
@@ -159,35 +177,168 @@
         .zero {
             grid-column: span 2;
         }
+
+        .history {
+            background: var(--history-bg);
+            border-radius: 20px;
+            box-shadow: 0 20px 60px var(--calculator-shadow);
+            padding: 30px;
+            max-width: 400px;
+            width: 100%;
+            max-height: 600px;
+            display: flex;
+            flex-direction: column;
+            transition: background 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid var(--history-border);
+        }
+
+        .history-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--history-border);
+        }
+
+        .history-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--button-text);
+        }
+
+        .history-clear {
+            background: var(--button-bg);
+            border: none;
+            border-radius: 8px;
+            padding: 8px 16px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            color: var(--button-text);
+            transition: all 0.2s;
+            font-weight: 600;
+        }
+
+        .history-clear:hover {
+            background: var(--button-hover);
+            transform: translateY(-2px);
+        }
+
+        .history-list {
+            flex: 1;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .history-item {
+            background: var(--calculator-bg);
+            border-radius: 10px;
+            padding: 15px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 1px solid var(--history-border);
+        }
+
+        .history-item:hover {
+            background: var(--history-item-hover);
+            transform: translateX(5px);
+            box-shadow: 0 2px 8px var(--button-shadow);
+        }
+
+        .history-expression {
+            font-size: 1rem;
+            color: var(--button-text);
+            margin-bottom: 5px;
+            word-wrap: break-word;
+            opacity: 0.8;
+        }
+
+        .history-result {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--button-text);
+            word-wrap: break-word;
+        }
+
+        .history-empty {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--button-text);
+            opacity: 0.5;
+            font-style: italic;
+        }
+
+        .history-list::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .history-list::-webkit-scrollbar-track {
+            background: var(--history-bg);
+            border-radius: 10px;
+        }
+
+        .history-list::-webkit-scrollbar-thumb {
+            background: var(--button-bg);
+            border-radius: 10px;
+        }
+
+        .history-list::-webkit-scrollbar-thumb:hover {
+            background: var(--button-hover);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+
+            .history {
+                max-width: 100%;
+                max-height: 300px;
+            }
+        }
     </style>
 </head>
 <body>
-    <div class="calculator">
-        <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" aria-label="Переключить тему">🌙</button>
-        <div class="display" id="display">0</div>
-        <div class="buttons">
-            <button class="clear" onclick="clearDisplay()">C</button>
-            <button class="operator" onclick="appendOperator('/')">/</button>
-            <button class="operator" onclick="appendOperator('*')">×</button>
-            <button class="operator" onclick="deleteLast()">⌫</button>
-            
-            <button onclick="appendNumber('7')">7</button>
-            <button onclick="appendNumber('8')">8</button>
-            <button onclick="appendNumber('9')">9</button>
-            <button class="operator" onclick="appendOperator('-')">-</button>
-            
-            <button onclick="appendNumber('4')">4</button>
-            <button onclick="appendNumber('5')">5</button>
-            <button onclick="appendNumber('6')">6</button>
-            <button class="operator" onclick="appendOperator('+')">+</button>
-            
-            <button onclick="appendNumber('1')">1</button>
-            <button onclick="appendNumber('2')">2</button>
-            <button onclick="appendNumber('3')">3</button>
-            <button class="equals" onclick="calculate()" rowspan="2">=</button>
-            
-            <button class="zero" onclick="appendNumber('0')">0</button>
-            <button onclick="appendDecimal()">.</button>
+    <div class="container">
+        <div class="calculator">
+            <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" aria-label="Переключить тему">🌙</button>
+            <div class="display" id="display">0</div>
+            <div class="buttons">
+                <button class="clear" onclick="clearDisplay()">C</button>
+                <button class="operator" onclick="appendOperator('/')">/</button>
+                <button class="operator" onclick="appendOperator('*')">×</button>
+                <button class="operator" onclick="deleteLast()">⌫</button>
+                
+                <button onclick="appendNumber('7')">7</button>
+                <button onclick="appendNumber('8')">8</button>
+                <button onclick="appendNumber('9')">9</button>
+                <button class="operator" onclick="appendOperator('-')">-</button>
+                
+                <button onclick="appendNumber('4')">4</button>
+                <button onclick="appendNumber('5')">5</button>
+                <button onclick="appendNumber('6')">6</button>
+                <button class="operator" onclick="appendOperator('+')">+</button>
+                
+                <button onclick="appendNumber('1')">1</button>
+                <button onclick="appendNumber('2')">2</button>
+                <button onclick="appendNumber('3')">3</button>
+                <button class="equals" onclick="calculate()" rowspan="2">=</button>
+                
+                <button class="zero" onclick="appendNumber('0')">0</button>
+                <button onclick="appendDecimal()">.</button>
+            </div>
+        </div>
+
+        <div class="history">
+            <div class="history-header">
+                <h2 class="history-title">Журнал операций</h2>
+                <button class="history-clear" onclick="clearHistory()">Очистить</button>
+            </div>
+            <div class="history-list" id="historyList">
+                <div class="history-empty">Журнал операций пуст</div>
+            </div>
         </div>
     </div>
 
@@ -195,6 +346,83 @@
         let display = document.getElementById('display');
         let currentInput = '0';
         let shouldResetDisplay = false;
+        let operationHistory = [];
+
+        // Загрузка истории из localStorage
+        function loadHistory() {
+            const savedHistory = localStorage.getItem('calculatorHistory');
+            if (savedHistory) {
+                operationHistory = JSON.parse(savedHistory);
+                renderHistory();
+            }
+        }
+
+        // Сохранение истории в localStorage
+        function saveHistory() {
+            localStorage.setItem('calculatorHistory', JSON.stringify(operationHistory));
+        }
+
+        // Добавление операции в журнал
+        function addToHistory(expression, result) {
+            const historyItem = {
+                expression: expression,
+                result: result,
+                timestamp: new Date().toLocaleString('ru-RU')
+            };
+            operationHistory.unshift(historyItem);
+            
+            // Ограничиваем количество записей (последние 50)
+            if (operationHistory.length > 50) {
+                operationHistory = operationHistory.slice(0, 50);
+            }
+            
+            saveHistory();
+            renderHistory();
+        }
+
+        // Отображение истории
+        function renderHistory() {
+            const historyList = document.getElementById('historyList');
+            
+            if (operationHistory.length === 0) {
+                historyList.innerHTML = '<div class="history-empty">Журнал операций пуст</div>';
+                return;
+            }
+            
+            historyList.innerHTML = operationHistory.map((item, index) => `
+                <div class="history-item" onclick="useFromHistory(${index})">
+                    <div class="history-expression">${formatExpression(item.expression)}</div>
+                    <div class="history-result">= ${item.result}</div>
+                </div>
+            `).join('');
+        }
+
+        // Форматирование выражения для отображения
+        function formatExpression(expr) {
+            return expr.replace(/\*/g, '×');
+        }
+
+        // Использование результата из истории
+        function useFromHistory(index) {
+            if (operationHistory[index]) {
+                const result = operationHistory[index].result;
+                if (result !== 'Ошибка') {
+                    currentInput = result.toString();
+                    updateDisplay();
+                }
+            }
+        }
+
+        // Очистка истории
+        function clearHistory() {
+            if (operationHistory.length > 0) {
+                if (confirm('Вы уверены, что хотите очистить журнал операций?')) {
+                    operationHistory = [];
+                    saveHistory();
+                    renderHistory();
+                }
+            }
+        }
 
         // Инициализация темы
         function initTheme() {
@@ -220,6 +448,9 @@
 
         // Загружаем тему при загрузке страницы
         initTheme();
+        
+        // Загружаем историю при загрузке страницы
+        loadHistory();
 
         function updateDisplay() {
             display.textContent = currentInput;
@@ -267,6 +498,9 @@
 
         function calculate() {
             try {
+                // Сохраняем оригинальное выражение для истории
+                const originalExpression = currentInput;
+                
                 // Заменяем × на * для вычисления
                 let expression = currentInput.replace(/×/g, '*');
                 
@@ -274,6 +508,7 @@
                 if (expression.includes('/0') && !expression.includes('/0.')) {
                     currentInput = 'Ошибка';
                     updateDisplay();
+                    addToHistory(originalExpression, 'Ошибка');
                     shouldResetDisplay = true;
                     return;
                 }
@@ -282,15 +517,20 @@
                 
                 if (isNaN(result) || !isFinite(result)) {
                     currentInput = 'Ошибка';
+                    addToHistory(originalExpression, 'Ошибка');
                 } else {
-                    currentInput = result.toString();
+                    const resultStr = result.toString();
+                    currentInput = resultStr;
+                    addToHistory(originalExpression, resultStr);
                 }
                 
                 updateDisplay();
                 shouldResetDisplay = true;
             } catch (error) {
+                const originalExpression = currentInput;
                 currentInput = 'Ошибка';
                 updateDisplay();
+                addToHistory(originalExpression, 'Ошибка');
                 shouldResetDisplay = true;
             }
         }
